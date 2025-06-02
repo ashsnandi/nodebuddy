@@ -4,10 +4,8 @@ import ReactFlow, {
   addEdge,
   useNodesState,
   useEdgesState,
-  Connection,
-  Node,
-  Edge,
 } from "reactflow";
+import type { Node, Edge, Connection, } from "reactflow";
 import "reactflow/dist/style.css";
 import { QueryClientProvider, useQuery } from "@tanstack/react-query";
 import {
@@ -94,8 +92,7 @@ function FlowCanvas() {
   };
 
   return (
-    <div style={{ height: "100vh", width: "100%" }}>
-      <Toolbar />
+    <div className="rf-wrapper-full">
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -103,7 +100,9 @@ function FlowCanvas() {
         onEdgesChange={onEdgesChange}
         onNodeDragStop={onNodeDragStop}
         onConnect={onConnect}
-        onPaneDoubleClick={handlePane}
+	onPaneClick={(e) => {
+			 if (e.detail === 2) handlePane(e);
+			 }}
         proOptions={{ hideAttribution: true }}
         fitView
       >
@@ -122,6 +121,7 @@ export default function App() {
   return (
     <QueryClientProvider client={qc}>
       <ReactFlowProvider>
+	<Toolbar />
         <FlowCanvas />
       </ReactFlowProvider>
     </QueryClientProvider>

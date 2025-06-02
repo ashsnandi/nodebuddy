@@ -6,14 +6,13 @@ import {
   upsertNode,
   qc,
 } from "../api";
-import { useReactFlow, Node as RFNode } from "reactflow";
-const { floor, setFloor } = useCanvas();
-
+import { useReactFlow } from "reactflow";
+import type { Node } from "reactflow";
 
 
 export default function Toolbar() {
   const rf = useReactFlow();
-  const { gid } = useCanvas();
+  const { gid, floor, setFloor } = useCanvas();
 
   // hot-key helpers
   const tag = (t: "hallway" | "elevator" | "full") => {
@@ -26,7 +25,7 @@ export default function Toolbar() {
   useHotkeys("f", () => tag("full"));
 
   return (
-    <div className="absolute left-2 top-2 z-10 flex gap-2">
+    <div className="rf-toolbar">
          <button className="btn btn-xs" onClick={() => setFloor(floor - 1)}>
       ⬆ Floor
     </button>
